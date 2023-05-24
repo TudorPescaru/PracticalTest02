@@ -68,12 +68,41 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
                     pokemonName,
                     pokemonAbilities,
                     pokemonTypes,
-                    pokemonImage);
+                    pokemonImage,
+                    false);
             clientThread.start();
         }
     }
 
     private final GetPokemonInfoButtonClickListener getPokemonInfoButtonClickListener = new GetPokemonInfoButtonClickListener();
+
+    private class GetPokemonButtonClickListener implements Button.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String serverAddress = serverAddressEditText.getText().toString();
+            String serverPort = clientServerPortEditText.getText().toString();
+            if (serverAddress.isEmpty() || serverPort.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "[MAIN ACTIVITY] Server address and port should be filled!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Log.d(Constants.TAG, "[MAIN ACTIVITY] " + serverAddress + " " + serverPort + " ");
+            pokemonAbilities.setText(Constants.EMPTY_STRING);
+            pokemonTypes.setText(Constants.EMPTY_STRING);
+            pokemonImage.setImageBitmap(null);
+
+            ClientThread clientThread = new ClientThread(
+                    serverAddress,
+                    Integer.parseInt(serverPort),
+                    "",
+                    pokemonAbilities,
+                    pokemonTypes,
+                    pokemonImage,
+                    true);
+            clientThread.start();
+        }
+    }
+
+    private final GetPokemonButtonClickListener getPokemonButtonClickListener = new GetPokemonButtonClickListener();
 
     private TextView pokemonAbilities = null;
 
@@ -95,6 +124,8 @@ public class PracticalTest02MainActivity extends AppCompatActivity {
         pokemonNameEditText = (EditText)findViewById(R.id.pokemon_name_edit_text);
         Button getPokemonInfoButton = (Button)findViewById(R.id.get_pokemon_info_button);
         getPokemonInfoButton.setOnClickListener(getPokemonInfoButtonClickListener);
+        Button getPokemonButton = (Button)findViewById(R.id.get_pokemon_button);
+        getPokemonButton.setOnClickListener(getPokemonButtonClickListener);
         pokemonAbilities = (TextView)findViewById(R.id.pokemon_abilities);
         pokemonTypes = (TextView)findViewById(R.id.pokemon_types);
         pokemonImage = (ImageView)findViewById(R.id.pokemon_image_view);

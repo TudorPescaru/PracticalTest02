@@ -12,4 +12,5 @@ public class Constants {
     public static final String ABILITY_NAME = "name";
     public static final String SPRITES = "sprites";
     public static final String FRONT_DEFAULT = "front_default";
+    public static final String RESULTS = "results";
 }
